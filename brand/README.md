@@ -7,13 +7,14 @@
 | Lime (accento, solo su fondi scuri/cobalto) | `#D4F53C` |
 | Blu notte (punto su fondo chiaro, testi) | `#0B1033` |
 | Bianco | `#FFFFFF` |
-| Sottotitolo su chiaro / su scuro | `#3B4466` / `#D6DCFF` |
+| Firma "by Ianus Project" su chiaro / su scuro | `#0B1033` / `#FFFFFF` |
 
 Regola: il lime non va mai su fondo bianco, perché il contrasto è troppo basso. Su fondo chiaro il punto diventa blu notte.
 
 ## Font
 - Wordmark: **Unbounded Bold 700**
-- Firma "by Ianus Project" e testi: **Inter Medium 500**, maiuscolo, spaziato
+- Firma: **Inter**, maiuscolo, spaziato. "BY" in Medium 500, "IANUS PROJECT" in Bold 700. Nel logo è a 36 px con il nome DARE•MOTO a 64 px (56%)
+- Testi: **Inter Medium 500**
 
 Entrambi sono Google Fonts con licenza SIL OFL. Negli SVG il testo è già convertito in tracciati, quindi i font non servono per usare gli asset.
 

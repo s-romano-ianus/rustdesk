@@ -92,9 +92,9 @@ BEGIN
             VALUE "CompanyName", "Ianus Project" "\0"
             VALUE "FileDescription", "DareMoto Remote Desktop" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "rustdesk" "\0"
+            VALUE "InternalName", "daremoto" "\0"
             VALUE "LegalCopyright", "Copyright © 2026 Ianus Project. Based on RustDesk, Copyright © Purslane Tech Pte. Ltd. AGPL-3.0" "\0"
-            VALUE "OriginalFilename", "rustdesk.exe" "\0"
+            VALUE "OriginalFilename", "daremoto.exe" "\0"
             VALUE "ProductName", "DareMoto" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END

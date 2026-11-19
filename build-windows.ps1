@@ -46,4 +46,4 @@ if (-not $SkipBridge) {
 }
 
 Invoke-InVsEnv 'python .\build.py --portable --flutter --skip-portable-pack --hwcodec --vram'
-Write-Host "OK -> flutter\build\windows\x64\runner\Release\rustdesk.exe"
+Write-Host "OK -> flutter\build\windows\x64\runner\Release\daremoto.exe"
