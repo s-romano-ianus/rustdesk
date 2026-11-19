@@ -60,3 +60,9 @@ flutter/web/
 /third_party/libdrmtap/
 # Local git worktrees
 .worktrees/
+
+# DAREMOTO brand assets (override the *png rule above)
+!flutter/assets/icon.png
+!flutter/assets/logo_light.png
+!flutter/assets/logo_dark.png
+!brand/**

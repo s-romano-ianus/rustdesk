@@ -611,11 +611,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           child: Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
                 colors: [
-                  Color.fromARGB(255, 226, 66, 188),
-                  Color.fromARGB(255, 244, 114, 124),
+                  MyTheme.brandCobalt,
+                  MyTheme.brandNight,
                 ],
               )),
               padding: EdgeInsets.all(20),
@@ -655,8 +655,8 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                                       padding: 8,
                                       isOutline: true,
                                       text: translate(btnText),
-                                      textColor: Colors.white,
-                                      borderColor: Colors.white,
+                                      textColor: MyTheme.brandLime,
+                                      borderColor: MyTheme.brandLime,
                                       textSize: 20,
                                       radius: 10,
                                       onTap: onPressed,
