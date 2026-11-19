@@ -2617,7 +2617,7 @@ class _AboutState extends State<_About> {
                       .marginSymmetric(vertical: 4.0)),
               InkWell(
                   onTap: () {
-                    launchUrlString('https://rustdesk.com/privacy.html');
+                    launchUrlString(kDareMotoPrivacyUrl);
                   },
                   child: Text(
                     translate('Privacy Statement'),
@@ -2625,16 +2625,25 @@ class _AboutState extends State<_About> {
                   ).marginSymmetric(vertical: 4.0)),
               InkWell(
                   onTap: () {
-                    launchUrlString('https://rustdesk.com');
+                    launchUrlString(kDareMotoWebsiteUrl);
                   },
                   child: Text(
                     translate('Website'),
                     style: linkStyle,
                   ).marginSymmetric(vertical: 4.0)),
+              // DareMoto brand box. The RustDesk copyright, the AGPL-3.0 notice
+              // and the source code link must stay (AGPL-3.0 sections 5 and 13).
               Container(
-                decoration: const BoxDecoration(color: Color(0xFF2c8cff)),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [MyTheme.brandCobalt, MyTheme.brandNight],
+                  ),
+                ),
                 padding:
-                    const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
                 child: SelectionArea(
                     child: Row(
                   children: [
@@ -2642,16 +2651,35 @@ class _AboutState extends State<_About> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Copyright © ${DateTime.now().toString().substring(0, 4)} Purslane Tech Pte. Ltd.\n$license',
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            translate('Slogan_tip'),
+                          const Text(
+                            'DareMoto',
                             style: TextStyle(
+                                fontSize: 18,
                                 fontWeight: FontWeight.w800,
-                                color: Colors.white),
-                          )
+                                color: MyTheme.brandLime),
+                          ),
+                          const Text(
+                            'by Ianus Project',
+                            style: TextStyle(color: Colors.white),
+                          ).marginOnly(bottom: 12),
+                          Text(
+                            'Copyright © ${DateTime.now().toString().substring(0, 4)} Ianus Project\n'
+                            'Based on RustDesk, Copyright © Purslane Tech Pte. Ltd.\n'
+                            'Licensed under the GNU AGPL-3.0'
+                            '${license.isEmpty ? '' : '\n$license'}',
+                            style: const TextStyle(color: Colors.white70),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              launchUrlString(kDareMotoSourceUrl);
+                            },
+                            child: const Text(
+                              'Source code',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline),
+                            ).marginOnly(top: 8),
+                          ),
                         ],
                       ),
                     ),

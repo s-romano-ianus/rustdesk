@@ -245,6 +245,11 @@ class ColorThemeExtension extends ThemeExtension<ColorThemeExtension> {
   }
 }
 
+// DareMoto links (About page)
+const kDareMotoWebsiteUrl = 'https://daremoto.net';
+const kDareMotoPrivacyUrl = 'https://daremoto.net/privacy';
+const kDareMotoSourceUrl = 'https://github.com/s-romano-ianus/rustdesk/tree/custom';
+
 class MyTheme {
   MyTheme._();
 
