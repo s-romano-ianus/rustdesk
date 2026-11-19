@@ -6,7 +6,8 @@
 param(
     [string]$Server,
     [string]$PubKey,
-    [switch]$SkipBridge
+    [switch]$SkipBridge,
+    [switch]$Portable   # also pack the single-file daremoto-<version>.exe (repo root)
 )
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
@@ -45,5 +46,13 @@ if (-not $SkipBridge) {
     Copy-Item ./flutter/macos/Runner/bridge_generated.h ./flutter/ios/Runner/bridge_generated.h
 }
 
-Invoke-InVsEnv 'python .\build.py --portable --flutter --skip-portable-pack --hwcodec --vram'
+$pack = if ($Portable) { '' } else { ' --skip-portable-pack' }
+# Dedicated venv (brotli for the portable packer), so no other Python on PATH is touched.
+$venv = "$env:USERPROFILE\dev\daremoto-build-venv"
+if (-not (Test-Path "$venv\Scripts\python.exe")) {
+    py -3 -m venv $venv
+    & "$venv\Scripts\python.exe" -m pip install -q -r libs\portable\requirements.txt
+}
+Invoke-InVsEnv "`"$venv\Scripts\python.exe`" .\build.py --portable --flutter$pack --hwcodec --vram"
 Write-Host "OK -> flutter\build\windows\x64\runner\Release\daremoto.exe"
+if ($Portable) { Get-ChildItem daremoto-*.exe | Sort-Object LastWriteTime | Select-Object -Last 1 | ForEach-Object { Write-Host "OK -> $($_.Name)" } }

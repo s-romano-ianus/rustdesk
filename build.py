@@ -980,9 +980,12 @@ def build_flutter_windows(version, features, skip_portable_pack):
     if skip_portable_pack:
         return
     os.chdir('libs/portable')
-    system2('pip3 install -r requirements.txt')
+    # Same interpreter as build.py: on Windows `pip3` and `python3` on PATH can
+    # belong to different Pythons.
+    py = f'"{sys.executable}"'
+    system2(f'{py} -m pip install -q -r requirements.txt')
     system2(
-        f'python3 ./generate.py -f ../../{flutter_build_dir_2} -o . -e ../../{flutter_build_dir_2}/daremoto.exe')
+        f'{py} ./generate.py -f ../../{flutter_build_dir_2} -o . -e ../../{flutter_build_dir_2}/daremoto.exe')
     os.chdir('../..')
     if os.path.exists('./rustdesk_portable.exe'):
         os.replace('./target/release/rustdesk-portable-packer.exe',
@@ -990,11 +993,11 @@ def build_flutter_windows(version, features, skip_portable_pack):
     else:
         os.rename('./target/release/rustdesk-portable-packer.exe',
                   './rustdesk_portable.exe')
+    # DareMoto: portable single-file client. Renaming it to *install.exe makes a
+    # double click start the installation directly (see libs/portable main.rs).
+    os.replace('./rustdesk_portable.exe', f'./daremoto-{version}.exe')
     print(
-        f'output location: {os.path.abspath(os.curdir)}/rustdesk_portable.exe')
-    os.rename('./rustdesk_portable.exe', f'./rustdesk-{version}-install.exe')
-    print(
-        f'output location: {os.path.abspath(os.curdir)}/rustdesk-{version}-install.exe')
+        f'output location: {os.path.abspath(os.curdir)}/daremoto-{version}.exe')
 
 
 def main():

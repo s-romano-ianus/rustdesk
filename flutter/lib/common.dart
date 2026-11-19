@@ -3776,7 +3776,11 @@ Color? disabledTextColor(BuildContext context, bool enabled) {
 }
 
 Widget loadPowered(BuildContext context) {
-  if (bind.mainGetBuildinOption(key: "hide-powered-by-me") == 'Y') {
+  // DareMoto: no "Powered by RustDesk" link in the main window. The RustDesk
+  // copyright and AGPL license stay visible in Settings > About.
+  const hidePoweredBy = true;
+  if (hidePoweredBy ||
+      bind.mainGetBuildinOption(key: "hide-powered-by-me") == 'Y') {
     return SizedBox.shrink();
   }
   return MouseRegion(
