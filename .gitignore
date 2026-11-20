@@ -66,3 +66,4 @@ flutter/web/
 !flutter/assets/logo_light.png
 !flutter/assets/logo_dark.png
 !brand/**
+/daremoto-*.apk
