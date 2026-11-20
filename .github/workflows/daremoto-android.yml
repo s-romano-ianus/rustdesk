@@ -40,7 +40,7 @@ jobs:
     name: librustdesk ${{ matrix.job.target }}
     runs-on: ubuntu-24.04
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         job:
           - { target: aarch64-linux-android, abi: arm64-v8a, script: ndk_arm64.sh }
@@ -67,7 +67,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang cmake curl git g++ libclang-dev llvm-dev nasm ninja-build pkg-config wget
+          sudo apt-get install -y clang cmake curl gcc-multilib git g++ g++-multilib libc6-dev libclang-dev llvm-dev nasm ninja-build pkg-config wget
 
       - name: Checkout source code
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
