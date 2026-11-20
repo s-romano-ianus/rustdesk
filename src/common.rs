@@ -1317,7 +1317,8 @@ fn get_api_server_(api: String, custom: String) -> String {
             return format!("http://{}", s);
         }
     }
-    "https://admin.rustdesk.com".to_owned()
+    // DareMoto: never fall back to the RustDesk hosted console (admin.rustdesk.com).
+    config::BUILTIN_API_SERVER.to_owned()
 }
 
 #[inline]
