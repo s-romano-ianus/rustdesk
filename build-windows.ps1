@@ -3,14 +3,26 @@
 #         .\build-windows.ps1 ... -SkipBridge                -> build only (flutter_ffi.rs unchanged)
 # -Server / -PubKey are compiled into hbb_common (RENDEZVOUS_SERVER / RS_PUB_KEY).
 # Without them the client falls back to the upstream public RustDesk servers.
+# -ApiServer (e.g. https://api.daremoto.net) enables login, address book and groups
+# (API_SERVER); without it those features are hidden.
 param(
     [string]$Server,
     [string]$PubKey,
+    [string]$ApiServer,
     [switch]$SkipBridge,
     [switch]$Portable   # also pack the single-file daremoto-<version>.exe (repo root)
 )
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
+
+if ($ApiServer) {
+    if ($ApiServer -notmatch '^https?://') { throw '-ApiServer must start with http:// or https://' }
+    $env:API_SERVER = $ApiServer.TrimEnd('/')
+    Write-Host "API server: $env:API_SERVER"
+} else {
+    Remove-Item Env:API_SERVER -ErrorAction SilentlyContinue
+    Write-Host 'No -ApiServer: login, address book and groups hidden'
+}
 
 if ([bool]$Server -ne [bool]$PubKey) { throw '-Server and -PubKey must be given together' }
 if ($Server) {
