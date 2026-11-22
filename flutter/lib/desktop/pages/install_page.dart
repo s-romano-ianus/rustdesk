@@ -163,8 +163,39 @@ class _InstallPageBodyState extends State<_InstallPageBody>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(translate('Installation'),
-                  style: Theme.of(context).textTheme.headlineMedium),
+              Row(
+                children: [
+                  Text(translate('Installation'),
+                      style: Theme.of(context).textTheme.headlineMedium),
+                  const SizedBox(width: 14),
+                  // DareMoto: same "by Ianus Project" badge as the daremoto.net header
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF0B1033),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'by ',
+                        style: TextStyle(
+                            color: Colors.white.withOpacity(0.75),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600),
+                        children: const [
+                          TextSpan(
+                            text: 'Ianus Project',
+                            style: TextStyle(
+                                color: Color(0xFFD4F53C),
+                                fontWeight: FontWeight.w800),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Table(
                 columnWidths: const {
                   0: IntrinsicColumnWidth(),
