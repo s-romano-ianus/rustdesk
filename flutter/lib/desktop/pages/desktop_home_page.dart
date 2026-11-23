@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hbb/common/widgets/daremoto_plan.dart';
 import 'package:flutter_hbb/common.dart';
 import 'package:flutter_hbb/common/widgets/animated_rotation_widget.dart';
 import 'package:flutter_hbb/common/widgets/custom_password.dart';
@@ -786,6 +787,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         windowOnTop(null);
       } else if (call.method == kWindowRefreshCurrentUser) {
         gFFI.userModel.refreshCurrentUser();
+      } else if (call.method == kWindowShowAccountLogin) {
+        await windowOnTop(null);
+        showDareMotoLogin();
       } else if (call.method == kWindowGetScreenList) {
         return jsonEncode(
             (await window_size.getScreenList()).map(screenToMap).toList());

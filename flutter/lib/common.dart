@@ -29,6 +29,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:window_size/window_size.dart' as window_size;
 
 import '../consts.dart';
+import 'common/widgets/daremoto_plan.dart';
 import 'common/widgets/overlay.dart';
 import 'mobile/pages/file_manager_page.dart';
 import 'mobile/pages/remote_page.dart';
@@ -1309,6 +1310,23 @@ void msgBox(SessionID sessionId, String type, String title, String text,
   }
   if (link.isNotEmpty) {
     buttons.insert(0, dialogButton('JumpLink', onPressed: jumplink));
+  }
+  // DareMoto: the server refused the connection because of the plan
+  if (isDareMotoPlanLimit(text)) {
+    buttons.insert(
+        0,
+        dialogButton('Vedi i piani', onPressed: () {
+          openDareMotoAccountPage();
+        }));
+  }
+  if (isDareMotoLoginRequired(text)) {
+    buttons.insert(
+        0,
+        dialogButton('Accedi', onPressed: () {
+          dialogManager.dismissAll();
+          closeConnection();
+          showDareMotoLogin();
+        }));
   }
   dialogManager.show(
     (setState, close, context) => CustomAlertDialog(

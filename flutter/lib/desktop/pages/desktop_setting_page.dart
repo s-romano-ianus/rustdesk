@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hbb/common/widgets/daremoto_plan.dart';
 import 'package:flutter_hbb/common.dart';
 import 'package:flutter_hbb/common/widgets/audio_input.dart';
 import 'package:flutter_hbb/common/widgets/setting_widgets.dart';
@@ -2285,7 +2286,12 @@ class _AccountState extends State<_Account> {
     return ListView(
       controller: scrollController,
       children: [
-        _Card(title: 'Account', children: [accountAction(), useInfo()]),
+        _Card(title: 'Account', children: [
+          accountAction(),
+          useInfo(),
+          // DareMoto: plan and usage of the signed-in account
+          const DareMotoPlanCard().marginOnly(left: 18, top: 12),
+        ]),
       ],
     ).marginOnly(bottom: _kListViewBottomMargin);
   }

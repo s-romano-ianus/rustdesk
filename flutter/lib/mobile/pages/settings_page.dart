@@ -11,6 +11,7 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../common/widgets/daremoto_plan.dart';
 import '../../common.dart';
 import '../../common/widgets/dialog.dart';
 import '../../common/widgets/login.dart';
@@ -762,6 +763,11 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
                     logOutConfirmDialog();
                   }
                 },
+              ),
+              // DareMoto: plan and usage of the signed-in account
+              CustomSettingsTile(
+                child: const DareMotoPlanCard()
+                    .paddingSymmetric(horizontal: 16, vertical: 8),
               ),
             ],
           ),
