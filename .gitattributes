@@ -1,1 +1,2 @@
 * text=auto
+build-android/*.sh text eol=lf
