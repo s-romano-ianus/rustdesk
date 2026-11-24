@@ -102,11 +102,108 @@ Future<DareMotoPlan?> fetchDareMotoPlan() async {
 }
 
 /// "Il mio account" in the browser: plans, payments, invoices.
-Future<void> openDareMotoAccountPage() async {
+Future<void> openDareMotoAccountPage({bool register = false}) async {
   var api = await bind.mainGetApiServer();
   if (api.isEmpty) api = 'https://api.daremoto.net';
-  await launchUrl(Uri.parse('$api/account/'),
+  await launchUrl(Uri.parse('$api/account/${register ? '?registrati' : ''}'),
       mode: LaunchMode.externalApplication);
+}
+
+/// The free sign-up page in the browser.
+Future<void> openDareMotoRegisterPage() => openDareMotoAccountPage(register: true);
+
+/// "Non hai un account? Registrati gratis", under the login form.
+class DareMotoRegisterLink extends StatelessWidget {
+  const DareMotoRegisterLink({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme.primary;
+    return Column(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            const Text('Non hai un account? ', style: TextStyle(fontSize: 14)),
+            InkWell(
+              onTap: openDareMotoRegisterPage,
+              child: Text('Registrati gratis',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: color,
+                      decoration: TextDecoration.underline,
+                      decorationColor: color)),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Text('Con Google l\'account si crea da solo al primo accesso.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 12,
+                color: Theme.of(context).textTheme.bodySmall?.color)),
+      ],
+    );
+  }
+}
+
+/// Home page banner while signed out: controlling another PC needs an account.
+class DareMotoAccountBanner extends StatelessWidget {
+  const DareMotoAccountBanner({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (bind.isDisableAccount()) return const SizedBox.shrink();
+    return Obx(() {
+      if (gFFI.userModel.userName.value.isNotEmpty) {
+        return const SizedBox.shrink();
+      }
+      final scheme = Theme.of(context).colorScheme;
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+        decoration: BoxDecoration(
+          color: scheme.primary.withOpacity(0.08),
+          border: Border.all(color: scheme.primary.withOpacity(0.35)),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Icon(Icons.account_circle_outlined, color: scheme.primary, size: 20),
+              const SizedBox(width: 8),
+              const Expanded(
+                child: Text('Per assistere un altro PC serve un account DareMoto',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+              ),
+            ]),
+            const SizedBox(height: 4),
+            Text(
+                'Il piano Gratuito non costa nulla e non chiede la carta. '
+                'Chi riceve assistenza non ha bisogno di account.',
+                style: TextStyle(
+                    fontSize: 12.5,
+                    color: Theme.of(context).textTheme.bodySmall?.color)),
+            const SizedBox(height: 10),
+            Wrap(spacing: 10, runSpacing: 8, children: [
+              ElevatedButton.icon(
+                icon: const Icon(Icons.person_add_alt_1, size: 18),
+                label: const Text('Registrati gratis'),
+                onPressed: openDareMotoRegisterPage,
+              ),
+              OutlinedButton(
+                onPressed: showDareMotoLogin,
+                child: const Text('Accedi'),
+              ),
+            ]),
+          ],
+        ),
+      );
+    });
+  }
 }
 
 /// Refusals of the rendezvous server that a plan upgrade solves.

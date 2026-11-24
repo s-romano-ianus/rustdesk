@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hbb/common/widgets/daremoto_plan.dart';
 import 'package:flutter_hbb/common/hbbs/hbbs.dart';
 import 'package:flutter_hbb/models/platform_model.dart';
 import 'package:flutter_hbb/models/user_model.dart';
@@ -1002,6 +1003,9 @@ Future<bool?> _openLoginDialog() async {
               userFocusNode: userFocusNode,
             ),
           thirdAuthWidget(),
+          // DareMoto: free sign-up on the web
+          const SizedBox(height: 16),
+          const DareMotoRegisterLink(),
         ],
       ),
       onCancel: onDialogCancel,

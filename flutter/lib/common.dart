@@ -1322,6 +1322,11 @@ void msgBox(SessionID sessionId, String type, String title, String text,
   if (isDareMotoLoginRequired(text)) {
     buttons.insert(
         0,
+        dialogButton('Registrati gratis', isOutline: true, onPressed: () {
+          openDareMotoRegisterPage();
+        }));
+    buttons.insert(
+        0,
         dialogButton('Accedi', onPressed: () {
           dialogManager.dismissAll();
           closeConnection();
