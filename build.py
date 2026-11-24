@@ -977,6 +977,11 @@ def build_flutter_windows(version, features, skip_portable_pack):
     os.chdir('..')
     shutil.copy2('target/release/deps/dylib_virtual_display.dll',
                  flutter_build_dir_2)
+    # DareMoto: virtual display driver for PCs with no monitor (build-windows.ps1 downloads it)
+    idd = os.environ.get('DAREMOTO_USBMMIDD_DIR')
+    if idd:
+        shutil.copytree(idd, os.path.join(flutter_build_dir_2, 'usbmmidd_v2'),
+                        dirs_exist_ok=True)
     if skip_portable_pack:
         return
     os.chdir('libs/portable')

@@ -58,6 +58,29 @@ if (-not $SkipBridge) {
     Copy-Item ./flutter/macos/Runner/bridge_generated.h ./flutter/ios/Runner/bridge_generated.h
 }
 
+# Virtual display driver (Amyuni usbmmidd_v2), same package and same files as the official
+# workflow: without it a PC with no monitor attached answers "No displays".
+# build.py copies it into Release\usbmmidd_v2 before packing.
+$idd = "$env:USERPROFILE\dev\daremoto-drivers\usbmmidd_v2"
+if (-not (Test-Path "$idd\usbmmIdd.inf")) {
+    $zip = "$env:TEMP\usbmmidd_v2.zip"
+    Write-Host '==> Download del driver dello schermo virtuale (usbmmidd_v2)'
+    Invoke-WebRequest -Uri https://github.com/rustdesk-org/rdev/releases/download/usbmmidd_v2/usbmmidd_v2.zip -OutFile $zip
+    $hash = (Get-FileHash $zip -Algorithm SHA256).Hash
+    if ($hash -ne '629B51E9944762BAE73948171C65D09A79595CF4C771A82EBC003FBBA5B24F51') {
+        Remove-Item $zip; throw "usbmmidd_v2.zip: SHA-256 inatteso ($hash)"
+    }
+    $tmp = "$env:TEMP\usbmmidd_v2_x"
+    Remove-Item $tmp -Recurse -ErrorAction SilentlyContinue
+    Expand-Archive $zip -DestinationPath $tmp
+    Remove-Item "$tmp\usbmmidd_v2\Win32" -Recurse
+    Remove-Item "$tmp\usbmmidd_v2\deviceinstaller64.exe", "$tmp\usbmmidd_v2\deviceinstaller.exe", "$tmp\usbmmidd_v2\usbmmidd.bat"
+    New-Item -ItemType Directory -Force (Split-Path $idd) | Out-Null
+    Move-Item "$tmp\usbmmidd_v2" $idd
+    Remove-Item $zip, $tmp -Recurse -ErrorAction SilentlyContinue
+}
+$env:DAREMOTO_USBMMIDD_DIR = $idd
+
 $pack = if ($Portable) { '' } else { ' --skip-portable-pack' }
 # Dedicated venv (brotli for the portable packer), so no other Python on PATH is touched.
 $venv = "$env:USERPROFILE\dev\daremoto-build-venv"
